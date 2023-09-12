@@ -3,6 +3,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import ormConfig from './common/config/orm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { DepositModule } from './deposit/deposit.module';
 import ormConfigProd from './common/config/orm.config.prod';
 
 @Module({
@@ -18,6 +19,7 @@ import ormConfigProd from './common/config/orm.config.prod';
         process.env.NODE_ENV !== 'production' ? ormConfig : ormConfigProd,
     }),
     AuthModule,
+    DepositModule,
   ],
   controllers: [],
   providers: [],
