@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import ormConfig from './common/config/orm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DepositModule } from './deposit/deposit.module';
+import { BidModule } from './bid/bid.module';
 import ormConfigProd from './common/config/orm.config.prod';
 
 @Module({
@@ -20,6 +21,7 @@ import ormConfigProd from './common/config/orm.config.prod';
     }),
     AuthModule,
     DepositModule,
+    BidModule,
   ],
   controllers: [],
   providers: [],
