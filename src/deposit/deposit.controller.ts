@@ -8,14 +8,13 @@ import { DepositService } from './deposit.service';
 @Controller('deposits')
 @UseGuards(AuthenticatedUser)
 export class DepositController {
-  
-  constructor( private readonly depositService : DepositService) {}
+  constructor(private readonly depositService: DepositService) {}
 
-    @Post()
-    async create(
+  @Post()
+  async create(
     @CurrentUser() user: User,
     @Body() createDepositDto: CreateDepositDto,
   ) {
-    return await this.depositService.makeDeposit(createDepositDto)
+    return await this.depositService.makeDeposit(createDepositDto.amount, user);
   }
 }
