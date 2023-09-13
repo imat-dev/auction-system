@@ -12,6 +12,16 @@ export class ItemService {
     private readonly itemRepo: Repository<Item>,
   ) {}
 
+  public async findAll(status: Status | null) {
+    const params = { where: { status: status } };
+    
+    if (status) {
+      return await this.itemRepo.find(params);
+    }
+    return await this.itemRepo.find()
+
+  }
+
   public async createBidItem(
     createItemDto: CreateItemDto,
     user: User,
@@ -25,16 +35,18 @@ export class ItemService {
     return await this.itemRepo.findOne({ where: { id: id } });
   }
 
-  public async udpateBidStatus(status: Status, itemId: number) : Promise<Item> {
+  public async udpateBidStatus(status: Status, itemId: number): Promise<Item> {
     const item = await this.findItemById(itemId);
 
     if (!item) {
       throw new BadRequestException();
     }
 
-    return await this.itemRepo.save(new Item({
-      ...item,
-      status: status
-    }))
+    return await this.itemRepo.save(
+      new Item({
+        ...item,
+        status: status,
+      }),
+    );
   }
 }

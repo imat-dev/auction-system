@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -17,12 +18,20 @@ import { CurrentUser } from 'src/auth/strategy/current-user.decorator';
 import { User } from 'src/auth/entity/user.entity';
 import { ItemOwnerGuard } from './guards/item-owner.guard';
 import { UpdateItemDto } from './dto/update-item.dto';
+import { Status } from './entity/items.entity';
 
 @Controller('items')
 @UseGuards(AuthenticatedUser)
 @UseInterceptors(ClassSerializerInterceptor)
 export class ItemsController {
   constructor(private readonly itemService: ItemService) {}
+
+
+  //Todo: pagination
+  @Get() 
+  async findAll(@Query('status') status : Status) {
+    return await this.itemService.findAll(status);
+  }
 
   @Post()
   async create(

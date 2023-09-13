@@ -13,6 +13,7 @@ export class BidController {
   constructor(private readonly bidService: BidService) {}
 
   //Todo: UseGuard to do not allow owner to participate in own auction
+  //Todo: Allow user to bid every 5 seconds
   @UseGuards(PublishedItemGuard)
   @Post(':itemId')
   async bid(
