@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 import { User } from 'src/auth/entity/user.entity';
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Item } from './items.entity';
 import { decimalTransformer } from 'src/common/helpers/decimal.transformer';
 

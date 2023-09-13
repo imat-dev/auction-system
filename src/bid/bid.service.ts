@@ -4,6 +4,7 @@ import { Bid } from './entity/bid.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/auth/entity/user.entity';
 import { Item, Status } from './entity/items.entity';
+import { CurrentUser } from 'src/auth/strategy/current-user.decorator';
 
 @Injectable()
 export class BidService {
@@ -19,7 +20,13 @@ export class BidService {
   ) {}
 
   public async placeBid(item: Item, user: User, bidAmount: number) {
-    const updatedItem = await this.itemRepo.save(
+
+
+    const currentBid = await this.bidRepo.findOne({
+      where: { user: user },
+    });
+
+    await this.itemRepo.save(
       new Item({
         ...item,
         highestBid: bidAmount,
@@ -27,32 +34,34 @@ export class BidService {
       }),
     );
 
-    // await this.userRepo.save(
-    //   new User({
-    //     ...user,
-    //     balance: user.balance - bidAmount,
-    //   }),
-    // );
+    await this.updateUserBalance(user, bidAmount);
 
-    let updatedBid = new Bid({
-      user: user,
-      item: updatedItem,
-      bidAmount: bidAmount,
-    });
-
-    const currentBid = await this.bidRepo.findOne({
-      where: { user: user, item: updatedItem },
-    });
-
-
+    
     if (currentBid) {
-      updatedBid = new Bid({
-        ...currentBid,
-        bidAmount: bidAmount,
-      });
-    }
+      return await this.bidRepo.update(
+        { id: currentBid.id },
+        { bidAmount: bidAmount },
+      );
 
-    return await this.bidRepo.save(updatedBid);
+    } else {
+      return await this.bidRepo.save(
+        new Bid({
+          user: user,
+          item: item,
+          bidAmount: bidAmount,
+        }),
+      );
+    }
+  }
+
+  private async updateUserBalance(user: User, bidAmount: number) {
+    const updatedUser = await this.userRepo.save(
+      new User({
+        ...user,
+        balance: user.balance - bidAmount,
+      }),
+    );
+    return updatedUser;
   }
 
   public async checkIfPublished(itemId: number): Promise<Boolean> {
