@@ -5,12 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Item } from './entity/items.entity';
 import { ItemsController } from './items.controller';
 import { ItemService } from './items.service';
-import { ItemOwnerGuard } from 'src/bid/guards/item-owner.guard';
 import { Bid } from './entity/bid.entity';
+import { UserBalanceGuard } from './guards/user-balance.guard';
+import { User } from 'src/auth/entity/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Item , Bid])],
+  imports: [TypeOrmModule.forFeature([Item , Bid, User])],
   controllers: [BidController, ItemsController],
-  providers: [BidService, ItemService, ItemOwnerGuard],
+  providers: [BidService, ItemService, UserBalanceGuard],
 })
 export class BidModule {}

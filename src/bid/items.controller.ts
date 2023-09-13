@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  UnauthorizedException,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -16,7 +17,6 @@ import { CreateItemDto } from './dto/create-item.dto';
 import { AuthenticatedUser } from 'src/auth/strategy/auth.guard.jwt';
 import { CurrentUser } from 'src/auth/strategy/current-user.decorator';
 import { User } from 'src/auth/entity/user.entity';
-import { ItemOwnerGuard } from './guards/item-owner.guard';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { Status } from './entity/items.entity';
 
@@ -26,10 +26,9 @@ import { Status } from './entity/items.entity';
 export class ItemsController {
   constructor(private readonly itemService: ItemService) {}
 
-
   //Todo: pagination
-  @Get() 
-  async findAll(@Query('status') status : Status) {
+  @Get()
+  async findAll(@Query('status') status: Status) {
     return await this.itemService.findAll(status);
   }
 
@@ -42,13 +41,20 @@ export class ItemsController {
   }
 
   @Patch(':itemId')
-  @UseGuards(ItemOwnerGuard)
   async updateItemState(
     @Param('itemId') itemId: number,
-    @Body() updateItemStateDto : UpdateItemDto,
-  )  {
+    @CurrentUser() user: User,
+    @Body() updateItemStateDto: UpdateItemDto,
+  ) {
+    const isItemOwner = await this.itemService.checkUserOwnership(user);
 
-    console.log(updateItemStateDto.status)
-    return await this.itemService.udpateBidStatus(updateItemStateDto.status, itemId);
+    if (!isItemOwner) {
+      throw new UnauthorizedException();
+    }
+
+    return await this.itemService.udpateBidStatus(
+      updateItemStateDto.status,
+      itemId,
+    );
   }
 }

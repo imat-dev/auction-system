@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 import { User } from 'src/auth/entity/user.entity';
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Item } from './items.entity';
 import { decimalTransformer } from 'src/common/helpers/decimal.transformer';
 
@@ -29,7 +29,11 @@ export class Bid {
   @Expose()
   bidAmount: number
 
-  @CreateDateColumn({ type: 'timestamp', name: 'date_created' })
+  @CreateDateColumn({ type: 'timestamp'})
   dateCreated: Date;
+
+  @UpdateDateColumn({ type: 'timestamp'})
+  dateUpdated: Date;
+
  
 }

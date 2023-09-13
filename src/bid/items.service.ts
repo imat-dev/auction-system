@@ -49,4 +49,12 @@ export class ItemService {
       }),
     );
   }
+
+  public async checkUserOwnership(user: User) : Promise<Boolean> {
+    const result = await this.itemRepo.findOne({ where: { owner: user } });
+    if(!result) {
+      return false
+    }
+    return true
+  }
 }
