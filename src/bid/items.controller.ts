@@ -4,6 +4,7 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
+  InternalServerErrorException,
   Param,
   Patch,
   Post,
@@ -19,12 +20,19 @@ import { CurrentUser } from 'src/auth/strategy/current-user.decorator';
 import { User } from 'src/auth/entity/user.entity';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { Status } from './entity/items.entity';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
 
 @Controller('items')
 @UseGuards(AuthenticatedUser)
 @UseInterceptors(ClassSerializerInterceptor)
 export class ItemsController {
-  constructor(private readonly itemService: ItemService) {}
+  constructor(
+    private readonly itemService: ItemService,
+
+    @InjectQueue('refunds')
+    private refundsQueue: Queue,
+  ) {}
 
   //Todo: pagination
   @Get()
@@ -52,9 +60,29 @@ export class ItemsController {
       throw new UnauthorizedException();
     }
 
+    const job = await this.refundsQueue.add(
+      {
+        itemId: itemId,
+      },
+      {
+        delay: 1 * 5000,
+        // delay: 1 * 1000 * 60 * 60,
+        attempts: 3, // Number of attempts to run the job in case of failures
+        removeOnComplete: true,
+      },
+    );
+
+
+    if (!job) {
+      //action here when adding queue fails.
+      throw new InternalServerErrorException()
+    }
+
     return await this.itemService.udpateBidStatus(
       updateItemStateDto.status,
       itemId,
+      String(job.id)
     );
+
   }
 }
