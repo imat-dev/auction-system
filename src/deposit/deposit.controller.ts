@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Post, UseGuards, UseInterceptors } from '@nestjs/common';
 import { User } from 'src/auth/entity/user.entity';
 import { AuthenticatedUser } from 'src/auth/strategy/auth.guard.jwt';
 import { CurrentUser } from 'src/auth/strategy/current-user.decorator';
@@ -7,6 +7,7 @@ import { DepositService } from './deposit.service';
 
 @Controller('deposits')
 @UseGuards(AuthenticatedUser)
+@UseInterceptors(ClassSerializerInterceptor)
 export class DepositController {
   constructor(private readonly depositService: DepositService) {}
 
