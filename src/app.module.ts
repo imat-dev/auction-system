@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DepositModule } from './deposit/deposit.module';
 import { BidModule } from './bid/bid.module';
 import ormConfigProd from './common/config/orm.config.prod';
+import { BullModule } from '@nestjs/bull';
 
 @Module({
   imports: [
@@ -18,6 +19,12 @@ import ormConfigProd from './common/config/orm.config.prod';
     TypeOrmModule.forRootAsync({
       useFactory:
         process.env.NODE_ENV !== 'production' ? ormConfig : ormConfigProd,
+    }),
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      },
     }),
     AuthModule,
     DepositModule,

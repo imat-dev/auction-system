@@ -1,4 +1,4 @@
-import { Expose } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { decimalTransformer } from 'src/common/helpers/decimal.transformer';
 import { User } from 'src/auth/entity/user.entity';
@@ -48,12 +48,10 @@ export class Item {
   status: Status;
 
 
-  @Expose()
-  @ManyToOne(() => User, user => user.items)
+  @ManyToOne(() => User, user => user.items, { eager : true})
   owner : User
 
-  @Expose()
-  @ManyToOne(() => User, user => user.highestBidItems)
+  @ManyToOne(() => User, user => user.highestBidItems, { eager : true})
   highestBidder : User
 
   @Column({ 
@@ -69,4 +67,14 @@ export class Item {
 
   @OneToMany(() => Bid, bid => bid.item)
   bids : Bid[]
+
+  
+  @Column({
+    nullable: true,
+  })
+  refundJobId: string
+
+  @Column({ type: 'boolean', default: false })
+  isRefundJobCompleted: boolean;
+
 }

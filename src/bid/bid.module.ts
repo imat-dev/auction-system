@@ -8,10 +8,21 @@ import { ItemService } from './items.service';
 import { Bid } from './entity/bid.entity';
 import { UserBalanceGuard } from './guards/user-balance.guard';
 import { User } from 'src/auth/entity/user.entity';
+import { BullModule } from '@nestjs/bull';
+import { RefundsProcessor } from './scheduler/refunds.processor';
+import { RefundsQueue } from './scheduler/refunds.queue';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Item , Bid, User])],
+  imports: [
+    TypeOrmModule.forFeature([Item, Bid, User]),
+    RefundsQueue,
+  ],
   controllers: [BidController, ItemsController],
-  providers: [BidService, ItemService, UserBalanceGuard],
+  providers: [
+    BidService,
+    ItemService,
+    UserBalanceGuard,
+    RefundsProcessor
+  ],
 })
 export class BidModule {}
