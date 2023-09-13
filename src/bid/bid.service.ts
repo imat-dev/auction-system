@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { Bid } from './entity/bid.entity';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { User } from 'src/auth/entity/user.entity';
 import { Item, Status } from './entity/items.entity';
 import { CurrentUser } from 'src/auth/strategy/current-user.decorator';
@@ -17,10 +17,10 @@ export class BidService {
 
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
+
   ) {}
 
   public async placeBid(item: Item, user: User, bidAmount: number) {
-
 
     const currentBid = await this.bidRepo.findOne({
       where: { user: user },
@@ -35,7 +35,6 @@ export class BidService {
     );
 
     await this.updateUserBalance(user, bidAmount);
-
     
     if (currentBid) {
       return await this.bidRepo.update(
@@ -52,6 +51,7 @@ export class BidService {
         }),
       );
     }
+
   }
 
   private async updateUserBalance(user: User, bidAmount: number) {
