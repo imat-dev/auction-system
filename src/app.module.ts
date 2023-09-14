@@ -7,6 +7,8 @@ import { DepositModule } from './deposit/deposit.module';
 import { AuctionModule } from './auction/auction.module';
 import ormConfigProd from './common/config/orm.config.prod';
 import { BullModule } from '@nestjs/bull';
+import redisConfig from './common/config/redis.config';
+import redisConfigProd from './common/config/redis.config.prod';
 
 @Module({
   imports: [
@@ -20,11 +22,9 @@ import { BullModule } from '@nestjs/bull';
       useFactory:
         process.env.NODE_ENV !== 'production' ? ormConfig : ormConfigProd,
     }),
-    BullModule.forRoot({
-      redis: {
-        host: 'localhost',
-        port: 6379,
-      },
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: process.env.NODE_ENV !== 'production' ? redisConfig : redisConfigProd,
     }),
     AuthModule,
     DepositModule,

@@ -10,6 +10,8 @@ import { UserBalanceGuard } from './guards/user-balance.guard';
 import { User } from 'src/auth/entity/user.entity';
 import { RefundsProcessor } from './scheduler/refunds.processor';
 import { RefundsQueue } from './scheduler/refunds.queue';
+import { RateLimiterService } from './rate-limiter.service';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -21,7 +23,9 @@ import { RefundsQueue } from './scheduler/refunds.queue';
     BidService,
     AuctionService,
     UserBalanceGuard,
-    RefundsProcessor
+    RefundsProcessor,
+    RateLimiterService,
+    ConfigService
   ],
 })
 export class AuctionModule {}
