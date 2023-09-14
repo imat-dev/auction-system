@@ -1,8 +1,8 @@
 import { Exclude, Expose } from 'class-transformer';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { decimalTransformer } from 'src/common/helpers/decimal.transformer';
-import { Item } from 'src/bid/entity/items.entity';
-import { Bid } from 'src/bid/entity/bid.entity';
+import { Item } from 'src/auction/entity/items.entity';
+import { Bid } from 'src/auction/entity/bid.entity';
 
 @Entity()
 export class User {

@@ -14,7 +14,7 @@ export class Bid {
   @Expose()
   id: number;
 
-  @ManyToOne( () => User, user => user.bids)
+  @ManyToOne( () => User, user => user.bids, {eager: true})
   user: User
 
   @ManyToOne(() => Item,  item => item.bids)
@@ -35,5 +35,7 @@ export class Bid {
   @UpdateDateColumn({ type: 'timestamp'})
   dateUpdated: Date;
 
+  @Column({ type: 'boolean', default: false })
+  isRefunded: boolean;
  
 }

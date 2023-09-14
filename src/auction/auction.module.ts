@@ -3,12 +3,11 @@ import { BidController } from './bid.controller';
 import { BidService } from './bid.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Item } from './entity/items.entity';
-import { ItemsController } from './items.controller';
-import { ItemService } from './items.service';
+import { AuctionController } from './auction.controller';
+import { AuctionService } from './auction.service';
 import { Bid } from './entity/bid.entity';
 import { UserBalanceGuard } from './guards/user-balance.guard';
 import { User } from 'src/auth/entity/user.entity';
-import { BullModule } from '@nestjs/bull';
 import { RefundsProcessor } from './scheduler/refunds.processor';
 import { RefundsQueue } from './scheduler/refunds.queue';
 
@@ -17,12 +16,12 @@ import { RefundsQueue } from './scheduler/refunds.queue';
     TypeOrmModule.forFeature([Item, Bid, User]),
     RefundsQueue,
   ],
-  controllers: [BidController, ItemsController],
+  controllers: [BidController, AuctionController],
   providers: [
     BidService,
-    ItemService,
+    AuctionService,
     UserBalanceGuard,
     RefundsProcessor
   ],
 })
-export class BidModule {}
+export class AuctionModule {}

@@ -1,8 +1,8 @@
 import { registerAs } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { User } from 'src/auth/entity/user.entity';
-import { Bid } from 'src/bid/entity/bid.entity';
-import { Item } from 'src/bid/entity/items.entity';
+import { Bid } from 'src/auction/entity/bid.entity';
+import { Item } from 'src/auction/entity/items.entity';
 
 export default registerAs(
   'orm.config',

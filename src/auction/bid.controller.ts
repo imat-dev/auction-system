@@ -5,15 +5,16 @@ import { User } from 'src/auth/entity/user.entity';
 import { BidService } from './bid.service';
 import { PlaceBidDto } from './dto/place-bid.dto';
 import { UserBalanceGuard } from './guards/user-balance.guard';
-import { ItemService } from './items.service';
+import { AuctionService } from './auction.service';
 
 @Controller('bid')
 @UseGuards(AuthenticatedUser)
 @UseInterceptors(ClassSerializerInterceptor)
 export class BidController {
-  constructor(private readonly bidService: BidService, private readonly itemService: ItemService) {}
+  constructor(private readonly bidService: BidService, 
+  private readonly auctionService: AuctionService) {}
 
-  //Todo: UseGuard to do not allow owner to participate in own auction
+  //Todo: UseGuard to do not allow owner to participate in own auction if needed.
   //Todo: Allow user to bid every 5 seconds
   @UseGuards(UserBalanceGuard)
   @Post(':itemId')
@@ -29,7 +30,7 @@ export class BidController {
       throw new BadRequestException()
     }
 
-    const item = await this.itemService.findItemById(itemId)
+    const item = await this.auctionService.findItemById(itemId)
 
     if (!item) {
       throw new BadRequestException();
