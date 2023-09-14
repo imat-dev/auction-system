@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Item, Status } from './entity/items.entity';
@@ -8,27 +12,25 @@ import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 
 @Injectable()
-export class ItemService {
+export class AuctionService {
   constructor(
     @InjectRepository(Item)
     private readonly itemRepo: Repository<Item>,
-    
-    @InjectQueue('refunds') 
-    private refundsQueue: Queue,
 
+    @InjectQueue('refunds')
+    private refundsQueue: Queue,
   ) {}
 
   public async findAll(status: Status | null) {
     const params = { where: { status: status } };
-    
+
     if (status) {
       return await this.itemRepo.find(params);
     }
-    return await this.itemRepo.find()
-
+    return await this.itemRepo.find();
   }
 
-  public async createBidItem(
+  public async createAuctionItem(
     createItemDto: CreateItemDto,
     user: User,
   ): Promise<Item> {
@@ -41,27 +43,48 @@ export class ItemService {
     return await this.itemRepo.findOne({ where: { id: id } });
   }
 
-  public async udpateBidStatus(status: Status, itemId: number, refundJobId : string): Promise<Item> {
+  public async startAuction(status: Status, itemId: number): Promise<Item> {
     const item = await this.findItemById(itemId);
 
     if (!item) {
       throw new BadRequestException();
     }
 
+    if (item.status !== Status.DRAFT) {
+      throw new BadRequestException('Auction Item already published/completed.')
+    }
+
+    const job = await this.refundsQueue.add(
+      {
+        itemId: itemId, //payload of job
+      },
+      {
+        delay: item.windowTime * 1000,
+        // delay: item.windowTime * 1000 * 60 * 60,
+        attempts: 3, // Number of attempts to run the job in case of failures
+        removeOnComplete: true, 
+      },
+    );
+
+    if (!job) {
+      //action here when adding queue fails.
+      throw new InternalServerErrorException();
+    }
+
     return await this.itemRepo.save(
       new Item({
         ...item,
-        refundJobId: refundJobId,
+        refundJobId: String(job.id),
         status: status,
       }),
     );
   }
 
-  public async checkUserOwnership(user: User) : Promise<Boolean> {
+  public async checkUserOwnership(user: User): Promise<Boolean> {
     const result = await this.itemRepo.findOne({ where: { owner: user } });
-    if(!result) {
-      return false
+    if (!result) {
+      return false;
     }
-    return true
+    return true;
   }
 }
