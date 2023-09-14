@@ -59,8 +59,8 @@ export class AuctionService {
         itemId: itemId, //payload of job
       },
       {
-        delay: item.windowTime * 1000,
-        // delay: item.windowTime * 1000 * 60 * 60,
+        // delay: item.windowTime * 1000, //use this testing
+        delay: item.windowTime * 1000 * 60 * 60,
         attempts: 3, // Number of attempts to run the job in case of failures
         removeOnComplete: true, 
       },

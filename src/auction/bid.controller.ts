@@ -1,4 +1,14 @@
-import { BadRequestException, Body, ClassSerializerInterceptor, Controller, Param, Post, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AuthenticatedUser } from 'src/auth/strategy/auth.guard.jwt';
 import { CurrentUser } from 'src/auth/strategy/current-user.decorator';
 import { User } from 'src/auth/entity/user.entity';
@@ -7,44 +17,44 @@ import { PlaceBidDto } from './dto/place-bid.dto';
 import { UserBalanceGuard } from './guards/user-balance.guard';
 import { AuctionService } from './auction.service';
 import { RateLimiterService } from './rate-limiter.service';
+import { UpdateBidDto } from './dto/update-bid.dto';
 
 @Controller('bid')
 @UseGuards(AuthenticatedUser)
 @UseInterceptors(ClassSerializerInterceptor)
 export class BidController {
-  constructor(private readonly bidService: BidService, 
-  private readonly auctionService: AuctionService,
-  private readonly rateLimiterService: RateLimiterService) {}
+  constructor(
+    private readonly bidService: BidService,
+    private readonly rateLimiterService: RateLimiterService,
+  ) {}
 
-  //Todo: UseGuard to do not allow owner to participate in own auction if needed.
-  //Todo: Allow user to bid every 5 seconds
   @UseGuards(UserBalanceGuard)
   @Post(':itemId')
-  async bid(
+  async placeBid(
     @Param('itemId') itemId,
     @CurrentUser() user: User,
     @Body() placeBidDto: PlaceBidDto,
   ) {
-
-    const isPublished = await this.bidService.checkIfPublished(itemId)
-
-    if(!isPublished) {
-      throw new BadRequestException()
-    }
-
-    const item = await this.auctionService.findItemById(itemId)
-
-    if (!item) {
-      throw new BadRequestException();
-    }
-
-    await this.rateLimiterService.checkLimit(user.id, itemId, 1, 5 * 1000); 
-
-    if (placeBidDto.bidAmount <= item.highestBid) {
-      throw new BadRequestException(
-        'Your bid must be higher than the current highest bid.',
-      );
-    }
+   
+    await this.rateLimiterService.checkLimit(user.id, itemId, 1, 5 * 1000);
+    const item = await this.bidService.validateBid(itemId, placeBidDto);
     return await this.bidService.placeBid(item, user, placeBidDto.bidAmount);
   }
+
+  //can't use guard here to check balance since currentBidAmount can be change on front-end
+  @Patch(':itemId/id/:bidId')
+  async upateBid(
+    @Param('itemId') itemId,
+    @Param('bidId') bidId,
+    @CurrentUser() user: User,
+    @Body() updateBidDto: UpdateBidDto,
+  ) {
+
+    await this.rateLimiterService.checkLimit(user.id, itemId, 1, 5 * 1000);
+    const item = await this.bidService.validateBid(itemId, updateBidDto);
+    return await this.bidService.updateBid(item, user, updateBidDto.bidAmount, bidId);
+
+  }
+
+
 }
