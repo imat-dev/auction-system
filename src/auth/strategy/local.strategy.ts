@@ -16,7 +16,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     const user = await this.userService.findUserByEmail(email);
 
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Invalid email or password');
     }
     const isValid = await this.authService.comparePassword(
       password,
@@ -24,7 +24,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     );
 
     if (!isValid) {
-      throw new UnauthorizedException('invalid pw');
+      throw new UnauthorizedException('Invalid email or password');
     }
 
     return user;
