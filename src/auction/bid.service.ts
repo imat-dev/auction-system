@@ -66,8 +66,12 @@ export class BidService {
 
   public async updateBid(item: Item, user: User, bidAmount: number) {
     const currentBid = await this.bidRepo.findOne({
-      where: { item: item, user: user },
+      where: {
+        item: new Item({ id: item.id }),
+        user: new User({ id: user.id }),
+      },
     });
+
 
     if (!currentBid) {
       throw new ForbiddenException('You dont have existing bid on this item.');
