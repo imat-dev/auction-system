@@ -3,6 +3,7 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Get,
   Param,
   Patch,
   Post,
@@ -28,6 +29,11 @@ export class BidController {
     private readonly rateLimiterService: RateLimiterService,
   ) {}
 
+  @Get(':itemId')
+  async getBid(@CurrentUser() user: User, @Param('itemId') itemId: number) {
+    return await this.bidService.getCurrentBidOnItem(itemId, user);
+  }
+
   @UseGuards(UserBalanceGuard)
   @Post(':itemId')
   async placeBid(
@@ -35,26 +41,26 @@ export class BidController {
     @CurrentUser() user: User,
     @Body() placeBidDto: PlaceBidDto,
   ) {
-   
     await this.rateLimiterService.checkLimit(user.id, itemId, 1, 5 * 1000);
     const item = await this.bidService.validateBid(itemId, placeBidDto);
+
     return await this.bidService.placeBid(item, user, placeBidDto.bidAmount);
   }
 
   //can't use guard here to check balance since currentBidAmount can be change on front-end
-  @Patch(':itemId/id/:bidId')
+  @Patch(':itemId')
   async upateBid(
     @Param('itemId') itemId,
-    @Param('bidId') bidId,
     @CurrentUser() user: User,
     @Body() updateBidDto: UpdateBidDto,
   ) {
-
     await this.rateLimiterService.checkLimit(user.id, itemId, 1, 5 * 1000);
     const item = await this.bidService.validateBid(itemId, updateBidDto);
-    return await this.bidService.updateBid(item, user, updateBidDto.bidAmount, bidId);
-
+    
+    return await this.bidService.updateBid(
+      item,
+      user,
+      updateBidDto.bidAmount,
+    );
   }
-
-
 }

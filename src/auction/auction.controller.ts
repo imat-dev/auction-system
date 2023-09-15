@@ -24,14 +24,17 @@ import { Status } from './entity/items.entity';
 @UseGuards(AuthenticatedUser)
 @UseInterceptors(ClassSerializerInterceptor)
 export class AuctionController {
-  constructor(
-    private readonly auctionService: AuctionService,
-  ) {}
+  constructor(private readonly auctionService: AuctionService) {}
 
   //Todo: pagination
   @Get()
   async findAll(@Query('status') status: Status) {
     return await this.auctionService.findAll(status);
+  }
+
+  @Get('my-items')
+  async findByUser(@Query('status') status: Status, @CurrentUser() user: User) {
+    return await this.auctionService.findAllByUser(status, user);
   }
 
   @Post()
@@ -53,11 +56,10 @@ export class AuctionController {
     if (!isItemOwner) {
       throw new UnauthorizedException();
     }
-  
+
     return await this.auctionService.startAuction(
       updateItemStateDto.status,
-      itemId
+      itemId,
     );
-
   }
 }

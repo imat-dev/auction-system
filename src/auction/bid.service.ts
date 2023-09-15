@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { Bid } from './entity/bid.entity';
@@ -22,6 +23,18 @@ export class BidService {
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
   ) {}
+
+  public async getCurrentBidOnItem(itemId: number, user: User) {
+    const currentBid = await this.bidRepo.findOne({
+      where: { user: user, item: new Item({ id: itemId }) },
+    });
+
+    if (!currentBid) {
+      throw new NotFoundException();
+    }
+
+    return currentBid;
+  }
 
   public async placeBid(item: Item, user: User, bidAmount: number) {
     const currentBid = await this.bidRepo.findOne({
@@ -51,15 +64,14 @@ export class BidService {
     );
   }
 
-  public async updateBid(
-    item: Item,
-    user: User,
-    bidAmount: number,
-    bidId: number,
-  ) {
+  public async updateBid(item: Item, user: User, bidAmount: number) {
     const currentBid = await this.bidRepo.findOne({
-      where: { id: bidId },
+      where: {
+        item: new Item({ id: item.id }),
+        user: new User({ id: user.id }),
+      },
     });
+
 
     if (!currentBid) {
       throw new ForbiddenException('You dont have existing bid on this item.');

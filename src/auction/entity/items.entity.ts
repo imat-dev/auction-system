@@ -1,5 +1,5 @@
 import { Exclude, Expose } from 'class-transformer';
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { decimalTransformer } from 'src/common/helpers/decimal.transformer';
 import { User } from 'src/auth/entity/user.entity';
 import { Min } from 'class-validator';
@@ -49,9 +49,11 @@ export class Item {
 
 
   @ManyToOne(() => User, user => user.items, { eager : true})
+  @Exclude()
   owner : User
 
   @ManyToOne(() => User, user => user.highestBidItems, { eager : true})
+  @Exclude()
   highestBidder : User
 
   @Column({ 
@@ -72,9 +74,17 @@ export class Item {
   @Column({
     nullable: true,
   })
+  @Exclude()
   refundJobId: string
 
   @Column({ type: 'boolean', default: false })
+  @Exclude()
   isRefundJobCompleted: boolean;
+
+  @CreateDateColumn({ type: 'timestamp'})
+  dateCreated: Date;
+
+  @UpdateDateColumn({ type: 'timestamp'})
+  dateUpdated: Date;
 
 }

@@ -22,7 +22,26 @@ export class AuctionService {
   ) {}
 
   public async findAll(status: Status | null) {
-    const params = { where: { status: status } };
+
+    if (status) {
+      const params = {
+        where: { status: status },
+        order: {
+          dateCreated: 'ASC' as const, 
+        },
+      };
+      return await this.itemRepo.find(params);
+    }
+
+    return await this.itemRepo.find({
+      order: {
+        dateCreated: 'desc' as const, 
+      },
+    });
+  }
+
+  public async findAllByUser(status: Status | null, user: User) {
+    const params = { where: { status: status, user: user } };
 
     if (status) {
       return await this.itemRepo.find(params);
@@ -35,7 +54,11 @@ export class AuctionService {
     user: User,
   ): Promise<Item> {
     return await this.itemRepo.save(
-      new Item({ ...createItemDto, owner: user }),
+      new Item({
+        ...createItemDto,
+        highestBid: createItemDto.startingPrice,
+        owner: user,
+      }),
     );
   }
 
@@ -51,7 +74,9 @@ export class AuctionService {
     }
 
     if (item.status !== Status.DRAFT) {
-      throw new BadRequestException('Auction Item already published/completed.')
+      throw new BadRequestException(
+        'Auction Item already published/completed.',
+      );
     }
 
     const job = await this.refundsQueue.add(
@@ -62,7 +87,7 @@ export class AuctionService {
         // delay: item.windowTime * 1000, //use this testing
         delay: item.windowTime * 1000 * 60 * 60,
         attempts: 3, // Number of attempts to run the job in case of failures
-        removeOnComplete: true, 
+        removeOnComplete: true,
       },
     );
 
