@@ -30,6 +30,15 @@ export class AuctionService {
     return await this.itemRepo.find();
   }
 
+  public async findAllByUser(status: Status | null, user : User) {
+    const params = { where: { status: status, user: user } };
+
+    if (status) {
+      return await this.itemRepo.find(params);
+    }
+    return await this.itemRepo.find();
+  }
+
   public async createAuctionItem(
     createItemDto: CreateItemDto,
     user: User,
