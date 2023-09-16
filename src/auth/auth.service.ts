@@ -14,9 +14,21 @@ export class AuthService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  // public async validateUser(email: string, password: string): Promise<User> {
-    
-  // }
+  public async validateUser(email: string, password: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { email: email } });
+
+    if (!user) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    const isValid = await this.comparePassword(password, user.password);
+
+    if (!isValid) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    return user;
+  }
 
   public async generateToken(user: User): Promise<string> {
     const token = this.jwtService.sign({

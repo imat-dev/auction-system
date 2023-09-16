@@ -5,7 +5,7 @@ import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Not, Repository } from 'typeorm';
 import { Item, Status } from '../entity/items.entity';
 import { Bid } from '../entity/bid.entity';
-import { User } from 'src/auth/entity/user.entity';
+import { User } from './../../auth/entity/user.entity';
 
 @Processor('refunds')
 export class RefundsProcessor {

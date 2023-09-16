@@ -1,7 +1,7 @@
 import { Body, ClassSerializerInterceptor, Controller, Post, UseGuards, UseInterceptors } from '@nestjs/common';
-import { User } from 'src/auth/entity/user.entity';
-import { AuthenticatedUser } from 'src/auth/strategy/auth.guard.jwt';
-import { CurrentUser } from 'src/auth/strategy/current-user.decorator';
+import { User } from './../auth/entity/user.entity';
+import { AuthenticatedUser } from './../auth/strategy/auth.guard.jwt';
+import { CurrentUser } from './../auth/strategy/current-user.decorator';
 import { CreateDepositDto } from './dto/create-deposit.dto';
 import { DepositService } from './deposit.service';
 

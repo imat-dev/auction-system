@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { DepositController } from './deposit.controller';
 import { DepositService } from './deposit.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/auth/entity/user.entity';
+import { User } from './../auth/entity/user.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],

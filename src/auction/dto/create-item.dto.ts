@@ -7,8 +7,7 @@ import {
   Min,
   Validate,
 } from 'class-validator';
-import { User } from 'src/auth/entity/user.entity';
-import { IsPositiveNonZeroNumber } from 'src/common/helpers/custom-class.validator';
+import { IsPositiveNonZeroNumber } from '../../common/helpers/custom-class.validator';
 
 
 export class CreateItemDto {

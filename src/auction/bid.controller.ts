@@ -10,13 +10,12 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { AuthenticatedUser } from 'src/auth/strategy/auth.guard.jwt';
-import { CurrentUser } from 'src/auth/strategy/current-user.decorator';
-import { User } from 'src/auth/entity/user.entity';
+import { AuthenticatedUser } from './../auth/strategy/auth.guard.jwt';
+import { CurrentUser } from './../auth/strategy/current-user.decorator';
+import { User } from './../auth/entity/user.entity';
 import { BidService } from './bid.service';
 import { PlaceBidDto } from './dto/place-bid.dto';
 import { UserBalanceGuard } from './guards/user-balance.guard';
-import { AuctionService } from './auction.service';
 import { RateLimiterService } from './rate-limiter.service';
 import { UpdateBidDto } from './dto/update-bid.dto';
 

@@ -1,8 +1,7 @@
 import { Exclude, Expose } from 'class-transformer';
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { decimalTransformer } from 'src/common/helpers/decimal.transformer';
-import { User } from 'src/auth/entity/user.entity';
-import { Min } from 'class-validator';
+import { decimalTransformer } from '../../common/helpers/decimal.transformer';
+import { User } from '../../auth/entity/user.entity';
 import { Bid } from './bid.entity';
 
 export enum Status {

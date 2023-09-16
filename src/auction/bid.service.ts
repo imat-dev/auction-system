@@ -7,7 +7,7 @@ import {
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { Bid } from './entity/bid.entity';
 import { EntityManager, Repository } from 'typeorm';
-import { User } from 'src/auth/entity/user.entity';
+import { User } from './../auth/entity/user.entity';
 import { Item, Status } from './entity/items.entity';
 import { PlaceBidDto } from './dto/place-bid.dto';
 

@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Item, Status } from './entity/items.entity';
 import { CreateItemDto } from './dto/create-item.dto';
-import { User } from 'src/auth/entity/user.entity';
+import { User } from './../auth/entity/user.entity';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 
@@ -84,8 +84,8 @@ export class AuctionService {
         itemId: itemId, //payload of job
       },
       {
-        delay: item.windowTime * 1000, //use this testing
-        // delay: item.windowTime * 1000 * 60 * 60,
+        // delay: item.windowTime * 1000, //use this testing
+        delay: item.windowTime * 1000 * 60 * 60,
         attempts: 3, // Number of attempts to run the job in case of failures
         removeOnComplete: true,
       },
