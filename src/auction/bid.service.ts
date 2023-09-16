@@ -91,14 +91,19 @@ export class BidService {
       }),
     );
 
-    await this.updateUserBalance(user, bidAmount - currentBid.bidAmount);
-
-    return await this.bidRepo.save(
+    const updatedUser = await this.updateUserBalance(user, bidAmount - currentBid.bidAmount);
+    const updatedBid = await this.bidRepo.save(
       new Bid({
         ...currentBid,
         bidAmount: bidAmount,
       }),
     );
+    
+    return {
+      ...updatedBid,
+      updatedBalance: updatedUser.balance
+    }
+
   }
 
   private async updateUserBalance(user: User, bidAmount: number) {

@@ -57,10 +57,12 @@ export class BidController {
     await this.rateLimiterService.checkLimit(user.id, itemId, 1, 5 * 1000);
     const item = await this.bidService.validateBid(itemId, updateBidDto);
     
-    return await this.bidService.updateBid(
+    const result =  await this.bidService.updateBid(
       item,
       user,
       updateBidDto.bidAmount,
     );
+
+    return result
   }
 }
