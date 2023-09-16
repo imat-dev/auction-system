@@ -53,15 +53,20 @@ export class BidService {
       }),
     );
 
-    await this.updateUserBalance(user, bidAmount);
+    const updatedUser = await this.updateUserBalance(user, bidAmount);
 
-    return await this.bidRepo.save(
+    const updatedBid = await this.bidRepo.save(
       new Bid({
         user: user,
         item: item,
         bidAmount: bidAmount,
       }),
     );
+
+    return {
+      ...updatedBid,
+      updatedBalance: updatedUser.balance,
+    };
   }
 
   public async updateBid(item: Item, user: User, bidAmount: number) {
@@ -71,7 +76,6 @@ export class BidService {
         user: new User({ id: user.id }),
       },
     });
-
 
     if (!currentBid) {
       throw new ForbiddenException('You dont have existing bid on this item.');
@@ -91,19 +95,21 @@ export class BidService {
       }),
     );
 
-    const updatedUser = await this.updateUserBalance(user, bidAmount - currentBid.bidAmount);
+    const updatedUser = await this.updateUserBalance(
+      user,
+      bidAmount - currentBid.bidAmount,
+    );
     const updatedBid = await this.bidRepo.save(
       new Bid({
         ...currentBid,
         bidAmount: bidAmount,
       }),
     );
-    
+
     return {
       ...updatedBid,
-      updatedBalance: updatedUser.balance
-    }
-
+      updatedBalance: updatedUser.balance,
+    };
   }
 
   private async updateUserBalance(user: User, bidAmount: number) {
