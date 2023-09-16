@@ -34,7 +34,7 @@ export class RefundsProcessor {
     }
 
     //check if there's a bidder
-    if (item.highestBidder.id) {
+    if (item.highestBidder) {
       const bidToRefund = await this.bidRepo.find({
         where: {
           item: new Item({ id: itemId }),
@@ -42,7 +42,7 @@ export class RefundsProcessor {
         },
       });
 
-      if (bidToRefund) {
+      if (bidToRefund){
         await this.entityManager.transaction(
           async (transactionalEntityManager) => {
             for (const bid of bidToRefund) {
