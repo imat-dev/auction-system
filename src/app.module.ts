@@ -9,6 +9,7 @@ import ormConfigProd from './common/config/orm.config.prod';
 import { BullModule } from '@nestjs/bull';
 import redisConfig from './common/config/redis.config';
 import redisConfigProd from './common/config/redis.config.prod';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -26,6 +27,10 @@ import redisConfigProd from './common/config/redis.config.prod';
       imports: [ConfigModule],
       useFactory: process.env.NODE_ENV !== 'production' ? redisConfig : redisConfigProd,
     }),
+    ThrottlerModule.forRoot([{
+      ttl: 60000,
+      limit: 60,
+    }]),
     AuthModule,
     DepositModule,
     AuctionModule,

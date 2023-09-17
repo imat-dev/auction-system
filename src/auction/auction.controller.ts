@@ -19,6 +19,7 @@ import { CurrentUser } from './../auth/strategy/current-user.decorator';
 import { User } from './../auth/entity/user.entity';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { Status } from './entity/items.entity';
+import { SkipThrottle } from '@nestjs/throttler';
 
 @Controller('auction')
 @UseGuards(AuthenticatedUser)
@@ -27,6 +28,7 @@ export class AuctionController {
   constructor(private readonly auctionService: AuctionService) {}
 
   //Todo: pagination
+  @SkipThrottle({ default: true })
   @Get()
   async findAll() {
     return await this.auctionService.findAll();
