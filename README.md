@@ -44,4 +44,7 @@ Before setting up and running the Auction System, ensure you meet the following 
 -   Rename it to `dev.env` using: `mv .env.sample dev.env`.
 -   Edit `dev.env` to ensure all variables match your local setup. If the docker successfully run, you just need to edit  `AUTH_SECRET` for your preference.
 
-9. **Start the Application**: To launch the app in development mode, run the following command: ```bash npm run start:dev```
+9. **Start the Application**: To launch the app in development mode, run the following command: 
+```bash
+ npm run start:dev
+ ```
