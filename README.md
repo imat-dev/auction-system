@@ -6,11 +6,12 @@ The Auction System is an intuitive online platform that facilitates the dynamic 
 
 # Table of Contents
 
-- [Tech Stack](#introduction)
-- [Prerequisite for Running the Auction System](#introduction)
-- [Steps for Running the Auction System](#installation)
-- [Bidding System Architecture Overview](#usage)
+- [Tech Stack](#tech-stack)
+- [Prerequisite for Running the Auction System](#prerequisite-for-running-the-auction-system)
+- [Steps for Running the Auction System](#steps-for-running-the-auction-system)
+- [Bidding System Architecture Overview](#bidding-system-architecture-overview)
 
+---
 
 # **Tech Stack**:
 The Auction System is built using the following technologies:
