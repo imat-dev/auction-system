@@ -10,6 +10,7 @@ The Auction System is an intuitive online platform that facilitates the dynamic 
 - [Prerequisite for Running the Auction System](#prerequisite-for-running-the-auction-system)
 - [Steps for Running the Auction System](#steps-for-running-the-auction-system)
 - [Bidding System Architecture Overview](#bidding-system-architecture-overview)
+- [Testing Process](#testing-process)
 
 ---
 
@@ -122,3 +123,31 @@ Security is paramount in any online system:
 
 -   **Helmet**: Enhances security by setting various HTTP headers, mitigating several well-known web vulnerabilities.
 -   **Rate Limiting with ThrottlerModule**: Instead of traditional methods, the system utilizes the `ThrottlerModule` to implement rate limiting. This ensures that users cannot overwhelm the system with excessive requests in a brief period, preserving the application's stability and protecting against potential abuse.
+
+---
+
+## Testing Process
+
+Testing is an integral part of the development lifecycle in this project. The testing process ensures that the system works as expected and helps identify any potential issues or bugs before they reach a production environment.
+
+### Unit Tests
+
+-   **Purpose**: Unit tests target small, isolated parts of the application, ensuring each unit functions as intended.
+    
+-   **Tools & Libraries**: I use [Jest](https://jestjs.io/) as primary testing framework due to its simplicity and compatibility with NestJS.
+    
+
+### Integration Tests
+
+-   **Purpose**: Integration tests focus on the interactions between units, ensuring that integrated components and services work together as expected.
+    
+-   **Setup**: These tests often require setting up mock versions of external services or databases.
+
+### End-to-End (E2E) Tests - To follow if required by Jitera :)
+
+### Running Tests Locally
+
+To run tests locally, you can use the following command:
+```bash
+$ npm run test 
+```
