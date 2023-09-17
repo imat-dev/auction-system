@@ -1,6 +1,6 @@
 import { Transform } from 'class-transformer';
 import { IsNotEmpty, Validate } from 'class-validator';
-import { IsPositiveNonZeroNumber } from 'src/common/helpers/custom-class.validator';
+import { IsPositiveNonZeroNumber } from './../../common/helpers/custom-class.validator';
 
 export class PlaceBidDto {
   @IsNotEmpty()

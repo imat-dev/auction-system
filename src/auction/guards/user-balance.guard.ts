@@ -5,7 +5,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Item } from 'src/auction/entity/items.entity';
+import { Item } from './../entity/items.entity';
 import { Repository } from 'typeorm';
 
 //check user have enough balance.

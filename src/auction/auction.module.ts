@@ -7,7 +7,7 @@ import { AuctionController } from './auction.controller';
 import { AuctionService } from './auction.service';
 import { Bid } from './entity/bid.entity';
 import { UserBalanceGuard } from './guards/user-balance.guard';
-import { User } from 'src/auth/entity/user.entity';
+import { User } from './../auth/entity/user.entity';
 import { RefundsProcessor } from './scheduler/refunds.processor';
 import { RefundsQueue } from './scheduler/refunds.queue';
 import { RateLimiterService } from './rate-limiter.service';

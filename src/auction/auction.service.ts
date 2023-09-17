@@ -4,10 +4,10 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Item, Status } from './entity/items.entity';
 import { CreateItemDto } from './dto/create-item.dto';
-import { User } from 'src/auth/entity/user.entity';
+import { User } from './../auth/entity/user.entity';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 
@@ -21,32 +21,27 @@ export class AuctionService {
     private refundsQueue: Queue,
   ) {}
 
-  public async findAll(status: Status | null) {
-
-    if (status) {
-      const params = {
-        where: { status: status },
-        order: {
-          dateCreated: 'ASC' as const, 
-        },
-      };
-      return await this.itemRepo.find(params);
-    }
-
-    return await this.itemRepo.find({
-      order: {
-        dateCreated: 'desc' as const, 
+  public async findAll() {
+    const params = {
+      where: {
+        status: In(['published', 'completed']),
       },
-    });
+      order: {
+        dateCreated: 'DESC' as const,
+      },
+    };
+
+    return await this.itemRepo.find(params);
   }
 
   public async findAllByUser(status: Status | null, user: User) {
-    const params = { where: { status: status, user: user } };
+    const params = { where: { status: status, owner: user } };
 
     if (status) {
       return await this.itemRepo.find(params);
     }
-    return await this.itemRepo.find();
+    
+    return await this.itemRepo.find({ where: { owner: new User({ ...user }) } });
   }
 
   public async createAuctionItem(

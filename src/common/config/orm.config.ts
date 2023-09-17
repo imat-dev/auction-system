@@ -1,8 +1,8 @@
 import { registerAs } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { User } from 'src/auth/entity/user.entity';
-import { Bid } from 'src/auction/entity/bid.entity';
-import { Item } from 'src/auction/entity/items.entity';
+import { User } from './../../auth/entity/user.entity';
+import { Bid } from './../../auction/entity/bid.entity';
+import { Item } from './../../auction/entity/items.entity';
 
 export default registerAs(
   'orm.config',
@@ -16,5 +16,6 @@ export default registerAs(
     entities: [User, Item, Bid],
     synchronize: true,
     dropSchema: Boolean(parseInt(process.env.DB_DROP_SCHEMA)),
+    timezone: 'Z', // This sets the timezone to UTC
   }),
 );
