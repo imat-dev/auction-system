@@ -60,3 +60,47 @@ This will start the services as defined in the Docker file. Ensure you do not te
 ```bash
  $ npm run start:dev
  ```
+
+
+## Bidding System Architecture Overview
+
+### 1. **Frontend**:
+
+Built on Next.js, the frontend offers a simple user interface that allows users to view, create, and bid on auction items. It communicates directly with the backend through API calls, and authenticates users ensuring secure access.
+
+**Repository**: The frontend codebase is available at [https://github.com/imat-dev/auction-site](https://github.com/imat-dev/auction-site).
+
+### 2. **Backend**:
+
+The heart of the system is powered by NestJS, a progressive Node.js framework that manages the primary application logic:
+
+-   **Authentication**: Leveraging the power of Passport, a comprehensive authentication middleware for Node.js, users are registered and authenticated. This ensures that only authorized users can bid or create auction items. Passport supports various authentication strategies, offering flexibility and robustness to the authentication process.
+-   **Database Interaction**: All data is stored in a MySQL database, which keeps track of users, items, and bids.
+-   **Redis**: This in-memory data structure store is employed for two primary reasons:
+
+	-   **Rate Limiting**: Controls the frequency of bidding by storing timestamps of the last bid, ensuring a 5-second gap between successive bids by the same user.
+	-   **Scheduling Refund Process**: Instead of relying on traditional polling methods, which can be resource-intensive, Redis is harnessed to schedule and manage the refund process. This ensures that users who didn't win the bid get their money back efficiently without putting undue strain on the server.
+-   **Auction Logic**: Manages the bidding process, ensures bids are higher than the current highest, manages the auction time window, and processes user refunds when necessary.
+
+### 3. **Database**:
+
+MySQL is used as the primary data store, housing all essential data:
+
+-   **Users Table**: Stores user information and credentials.
+-   **Items Table**: Lists all auction items, their starting price, state (draft/published), and time window.
+-   **Bids Table**: Tracks all bids for auction items, the user who made the bid, and the bid amount.
+
+Below is the ERD for reference: 
+
+
+
+### 5. **Error Tracking & Monitoring**:
+
+With Sentry integration, any unexpected issues or bugs are promptly reported. This ensures quick diagnostics and solutions to any problems that might arise during production use.
+
+### 6. **Security**:
+
+Security is paramount in any online system:
+
+-   **Helmet**: Enhances security by setting various HTTP headers, mitigating several well-known web vulnerabilities.
+-   **Rate Limiting with ThrottlerModule**: Instead of traditional methods, the system utilizes the `ThrottlerModule` to implement rate limiting. This ensures that users cannot overwhelm the system with excessive requests in a brief period, preserving the application's stability and protecting against potential abuse.
