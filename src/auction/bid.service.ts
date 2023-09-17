@@ -112,7 +112,7 @@ export class BidService {
     };
   }
 
-  private async updateUserBalance(user: User, bidAmount: number) {
+  public async updateUserBalance(user: User, bidAmount: number) {
     const updatedUser = await this.userRepo.save({
       ...user,
       balance: user.balance - bidAmount,
