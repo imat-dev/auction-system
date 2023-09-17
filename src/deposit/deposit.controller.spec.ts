@@ -1,8 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { DepositController } from './deposit.controller';
 import { DepositService } from './deposit.service';
 import { User } from './../auth/entity/user.entity';
-import { CreateDepositDto } from './dto/create-deposit.dto';
 import { Repository } from 'typeorm';
 import { LocalStrategy } from './../auth/strategy/local.strategy';
 import { AuthService } from './../auth/auth.service';
@@ -10,12 +8,12 @@ import { AuthService } from './../auth/auth.service';
 describe('DepositController (unit)', () => {
   let depositController: DepositController;
   let depositService: DepositService;
-  let eventsRepository: Repository<User>;
+  let userRepository: Repository<User>;
   let localStrategy: LocalStrategy;
   let authService: AuthService;
 
   beforeEach(async () => {
-    depositService = new DepositService(eventsRepository);
+    depositService = new DepositService(userRepository);
     depositController = new DepositController(depositService);
     localStrategy = new LocalStrategy(authService);
   });

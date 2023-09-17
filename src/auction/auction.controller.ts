@@ -28,8 +28,8 @@ export class AuctionController {
 
   //Todo: pagination
   @Get()
-  async findAll(@Query('status') status: Status) {
-    return await this.auctionService.findAll(status);
+  async findAll() {
+    return await this.auctionService.findAll();
   }
 
   @Get('my-items')
