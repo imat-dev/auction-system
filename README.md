@@ -5,10 +5,17 @@ The Auction System is an intuitive online platform that facilitates the dynamic 
 The Auction System is built using the following technologies:
 -   **Backend Framework**: NestJS
 -   **Database**: MySQL
--   **Queueing**: Redis
+-   **Scheduling & Rate Limiting**: Redis
 -   **Error Tracking**: Sentry
 
 ---
+
+# Table of Contents
+
+- [Prerequisite for Running the Auction System](#introduction)
+- [Steps for Running the Auction System](#installation)
+- [Bidding System Architecture Overview](#usage)
+
 
 # **Prerequisite for Running the Auction System**:
 
