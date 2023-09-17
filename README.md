@@ -1,7 +1,18 @@
 # Auction System - Backend
 The Auction System is an intuitive online platform that facilitates the dynamic listing and bidding of items. Users can effortlessly list auction items, set starting prices, and define auction durations. Bidders, in turn, engage in real-time competitive bidding, ensuring they always stay above the last highest bid. This platform exemplifies a seamless integration of user experience and robust functionality. This project was developed as part of my technical assessment for Jitera.
 
-## Tech Stack
+
+---
+
+# Table of Contents
+
+- [Tech Stack](#introduction)
+- [Prerequisite for Running the Auction System](#introduction)
+- [Steps for Running the Auction System](#installation)
+- [Bidding System Architecture Overview](#usage)
+
+
+# **Tech Stack**:
 The Auction System is built using the following technologies:
 -   **Backend Framework**: NestJS
 -   **Database**: MySQL
@@ -9,13 +20,6 @@ The Auction System is built using the following technologies:
 -   **Error Tracking**: Sentry
 
 ---
-
-# Table of Contents
-
-- [Prerequisite for Running the Auction System](#introduction)
-- [Steps for Running the Auction System](#installation)
-- [Bidding System Architecture Overview](#usage)
-
 
 # **Prerequisite for Running the Auction System**:
 
