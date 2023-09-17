@@ -39,7 +39,7 @@ Before setting up and running the Auction System, ensure you meet the following 
 4.  After installing the dependencies, navigate to the directory containing the Docker file `docker-compose.yml`.
 5.  Execute the command: 
     ```bash 
-       $ docker-compose up 
+    $ docker-compose up 
     ``` 
 
 This will start the services as defined in the Docker file. Ensure you do not terminate this process or the images and associated services will become unavailable. If running in the foreground, you can use `Ctrl+C` to stop it when necessary, but during initial setup and while using the auction system, **keep it running**.
