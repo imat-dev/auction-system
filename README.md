@@ -26,11 +26,23 @@ Before setting up and running the Auction System, ensure you meet the following 
 
 # **Steps for Running the Auction System**:
 
-1.  First, clone the project repository: `git clone [repository_url]`.
+1.  First, clone the project repository: 
+    ```bash 
+    git clone [repository_url]
+    ```
 2.  Navigate to the directory containing the project.
-3.  Before spinning up your Docker containers, ensure that you install all the necessary Node.js dependencies by running:  `npm install`
+3.  Before spinning up your Docker containers, ensure that you install all the necessary Node.js dependencies by running:  
+    ```bash
+    npm install
+    ```
+
 4.  After installing the dependencies, navigate to the directory containing the Docker file `docker-compose.yml`.
-5.  Execute the command: `docker-compose up`. This will start the services as defined in the Docker file. Ensure you do not terminate this process or the images and associated services will become unavailable. If running in the foreground, you can use `Ctrl+C` to stop it when necessary, but during initial setup and while using the auction system, **keep it running**.
+5.  Execute the command: 
+    ```bash 
+        docker-compose up 
+    ```. 
+
+This will start the services as defined in the Docker file. Ensure you do not terminate this process or the images and associated services will become unavailable. If running in the foreground, you can use `Ctrl+C` to stop it when necessary, but during initial setup and while using the auction system, **keep it running**.
 
 7. **Setting Up the Database using Adminer**:
     -   Open your browser and go to [http://localhost:8080/](http://localhost:8080/)
