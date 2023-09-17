@@ -22,7 +22,7 @@ describe('Bid Controller (unit)', () => {
   beforeEach(async () => {
     bidService = new BidService(bidRepo, itemRepo, userRepo);
     bidController = new BidController(bidService, rateLimiterService);
-    mockRateLimiterService = new RateLimiterService(configService);
+    // mockRateLimiterService = new RateLimiterService(configService);
   });
 
   describe('GetBid', () => {
