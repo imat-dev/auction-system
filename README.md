@@ -8,6 +8,7 @@ The Auction System is built using the following technologies:
 -   **Queueing**: Redis
 -   **Error Tracking**: Sentry
 
+---
 
 # **Prerequisite for Running the Auction System**:
 
@@ -25,6 +26,7 @@ Before setting up and running the Auction System, ensure you meet the following 
     -   **MySQL**: A popular relational database system.
     -   **Adminer**: A lightweight database management tool to simplify the administration of databases.
 
+---
 
 # **Steps for Running the Auction System**:
 
@@ -64,7 +66,7 @@ Before setting up and running the Auction System, ensure you meet the following 
  $ npm run start:dev
  ```
 
-
+---
 
 ## Bidding System Architecture Overview
 
