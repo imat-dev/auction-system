@@ -109,8 +109,7 @@ MySQL is used as the primary data store, housing all essential data:
 -   **Bids Table**: Tracks all bids for auction items, the user who made the bid, and the bid amount.
 
 Below is the ERD for reference: 
-
-
+![Entity Relationship Diagram](/images/ERD.png)
 
 ### 5. **Error Tracking & Monitoring**:
 
