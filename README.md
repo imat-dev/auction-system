@@ -33,14 +33,14 @@ Before setting up and running the Auction System, ensure you meet the following 
 2.  Navigate to the directory containing the project.
 3.  Before spinning up your Docker containers, ensure that you install all the necessary Node.js dependencies by running:  
     ```bash
-    npm install
+    $ npm install
     ```
 
 4.  After installing the dependencies, navigate to the directory containing the Docker file `docker-compose.yml`.
 5.  Execute the command: 
     ```bash 
-        docker-compose up 
-    ```. 
+       $ docker-compose up 
+    ``` 
 
 This will start the services as defined in the Docker file. Ensure you do not terminate this process or the images and associated services will become unavailable. If running in the foreground, you can use `Ctrl+C` to stop it when necessary, but during initial setup and while using the auction system, **keep it running**.
 
@@ -58,5 +58,5 @@ This will start the services as defined in the Docker file. Ensure you do not te
 
 9. **Start the Application**: To launch the app in development mode, run the following command: 
 ```bash
- npm run start:dev
+ $ npm run start:dev
  ```
