@@ -8,6 +8,7 @@ The Auction System is built using the following technologies:
 -   **Queueing**: Redis
 -   **Error Tracking**: Sentry
 
+
 # **Prerequisite for Running the Auction System**:
 
 Before setting up and running the Auction System, ensure you meet the following prerequisites:
@@ -23,6 +24,7 @@ Before setting up and running the Auction System, ensure you meet the following 
     -   **Redis**: An in-memory data structure store, used for caching and as a database. 
     -   **MySQL**: A popular relational database system.
     -   **Adminer**: A lightweight database management tool to simplify the administration of databases.
+
 
 # **Steps for Running the Auction System**:
 
@@ -42,24 +44,26 @@ Before setting up and running the Auction System, ensure you meet the following 
     $ docker-compose up 
     ``` 
 
-This will start the services as defined in the Docker file. Ensure you do not terminate this process or the images and associated services will become unavailable. If running in the foreground, you can use `Ctrl+C` to stop it when necessary, but during initial setup and while using the auction system, **keep it running**.
+    This will start the services as defined in the Docker file. Ensure you do not terminate this process or the images and associated services will become unavailable. If running in the foreground, you can use `Ctrl+C` to stop it when necessary, but during initial setup and while using the auction system, **keep it running**.
 
-7. **Setting Up the Database using Adminer**:
+6. **Setting Up the Database using Adminer**:
     -   Open your browser and go to [http://localhost:8080/](http://localhost:8080/)
     -   Use the following credentials to log in:
         -   **Server**: `mysql`
         -   **Username**: `root`
         -   **Password**: `root`
     -   After logging in, create a new database named `bidding`.
-8. **Environment Variables Setup**:
+
+7. **Environment Variables Setup**:
 -   Locate `.env.sample` in the project directory.
 -   Rename it to `dev.env` using: `mv .env.sample dev.env`.
 -   Edit `dev.env` to ensure all variables match your local setup. If the docker successfully run, you just need to edit  `AUTH_SECRET` for your preference.
 
-9. **Start the Application**: To launch the app in development mode, run the following command: 
+8. **Start the Application**: To launch the app in development mode, run the following command: 
 ```bash
  $ npm run start:dev
  ```
+
 
 
 ## Bidding System Architecture Overview
