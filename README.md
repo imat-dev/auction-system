@@ -64,7 +64,7 @@ Before setting up and running the Auction System, ensure you meet the following 
 1.  **Node.js and npm**: Ensure Node.js and npm (Node Package Manager) are installed. If not, you can download and install them from the [official Node.js website](https://nodejs.org/).
 2. **NestJS CLI**: The NestJS Command Line Interface (CLI) is a handy tool that helps you to initialize, develop, and maintain your NestJS applications. Install it globally with:
 	```bash
-	  $ npm install -g @nestjs/cli
+	$ npm install -g @nestjs/cli
 	```
 
 5.  **Docker Installed**: Docker must be installed on your machine. If not already present, download and install Docker from the [official Docker website](https://www.docker.com/get-started).
@@ -93,7 +93,7 @@ Before setting up and running the Auction System, ensure you meet the following 
 
 ```bash
 
-git clone [repository_url]
+$ git clone [repository_url]
 
 ```
 
