@@ -62,12 +62,16 @@ Before setting up and running the Auction System, ensure you meet the following 
   
 
 1.  **Node.js and npm**: Ensure Node.js and npm (Node Package Manager) are installed. If not, you can download and install them from the [official Node.js website](https://nodejs.org/).
+2. **NestJS CLI**: The NestJS Command Line Interface (CLI) is a handy tool that helps you to initialize, develop, and maintain your NestJS applications. Install it globally with:
+	```bash
+	  $ npm install -g @nestjs/cli
+	```
 
-2.  **Docker Installed**: Docker must be installed on your machine. If not already present, download and install Docker from the [official Docker website](https://www.docker.com/get-started).
+5.  **Docker Installed**: Docker must be installed on your machine. If not already present, download and install Docker from the [official Docker website](https://www.docker.com/get-started).
 
-3.  **Docker Compose**: Ensure you have Docker Compose set up. Typically, Docker Compose is bundled with Docker installations for Windows and Mac.
+6.  **Docker Compose**: Ensure you have Docker Compose set up. Typically, Docker Compose is bundled with Docker installations for Windows and Mac.
 
-4.  **Auction System Docker File**: You need the Docker file specific to the Auction System. This Docker file contains configurations to set up the necessary environment for the system. Notably, within this Docker environment, the following images are integrated:
+7.  **Auction System Docker File**: You need the Docker file specific to the Auction System. This Docker file contains configurations to set up the necessary environment for the system. Notably, within this Docker environment, the following images are integrated:
 
 -  **Redis**: An in-memory data structure store, used for caching and as a database.
 
