@@ -14,7 +14,7 @@ export default registerAs(
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     entities: [User, Item, Bid],
-    synchronize: false,
+    synchronize: true,
     dropSchema: false,
     timezone: 'Z', // This sets the timezone to UTC
   }),
