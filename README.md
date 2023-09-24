@@ -1,18 +1,10 @@
 
+
 # Auction System - Backend
 
-The Auction System is an intuitive online platform that facilitates the dynamic listing and bidding of items. Users can effortlessly list auction items, set starting prices, and define auction durations. Bidders, in turn, engage in real-time competitive bidding, ensuring they always stay above the last highest bid. This platform exemplifies a seamless integration of user experience and robust functionality. This project was developed as part of my technical assessment for Jitera.
-
-  
-## 🌐 API Access Point
-
-You can access the API endpoints for the application through the following base URL:
-
-**🔗 [https://auction-system-e128765ef06d.herokuapp.com/](https://auction-system-e128765ef06d.herokuapp.com/)**
+The Auction System is an intuitive online platform that facilitates the dynamic listing and bidding of items. Users can effortlessly list auction items, set starting prices, and define auction durations. Bidders, in turn, engage in real-time competitive bidding, ensuring they always stay above the last highest bid. This platform exemplifies a seamless integration of user experience and robust functionality.
 
 ---
-
-  
 
 # Table of Contents
 
@@ -218,14 +210,6 @@ MySQL is used as the primary data store, housing all essential data:
 -  **Items Table**: Lists all auction items, their starting price, state (draft/published), and time window.
 
 -  **Bids Table**: Tracks all bids for auction items, the user who made the bid, and the bid amount.
-
-  
-
-- Below is the ERD for reference:
-
-  
-
-![Entity Relationship Diagram](/images/ERD.png)
 
   
 
