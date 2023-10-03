@@ -18,7 +18,9 @@ import { PlaceBidDto } from './dto/place-bid.dto';
 import { UserBalanceGuard } from './guards/user-balance.guard';
 import { RateLimiterService } from './rate-limiter.service';
 import { UpdateBidDto } from './dto/update-bid.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Bid')
 @Controller('bid')
 @UseGuards(AuthenticatedUser)
 @UseInterceptors(ClassSerializerInterceptor)

@@ -4,14 +4,15 @@ import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
 import * as Sentry from '@sentry/node';
 import { FallbackExceptionFilter } from './common/filters/fallback.filter';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
-
-  if(process.env.NODE_ENV === 'production') {
+  //sentry
+  if (process.env.NODE_ENV === 'production') {
     Sentry.init({
       dsn: process.env.SENTRY_DSN,
       integrations: [new Sentry.Integrations.Http({ tracing: true })],
-      tracesSampleRate: .3,
+      tracesSampleRate: 0.3,
     });
   }
 
@@ -20,10 +21,17 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalFilters(new FallbackExceptionFilter());
-
   app.use(helmet());
 
-  await app.listen(process.env.PORT || 3000);
+  //swagger
+  const config = new DocumentBuilder()
+    .setTitle('Auction System')
+    .setDescription('Auction System API Documentation')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
 
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
