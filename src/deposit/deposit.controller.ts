@@ -4,7 +4,9 @@ import { AuthenticatedUser } from './../auth/strategy/auth.guard.jwt';
 import { CurrentUser } from './../auth/strategy/current-user.decorator';
 import { CreateDepositDto } from './dto/create-deposit.dto';
 import { DepositService } from './deposit.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Deposit')
 @Controller('deposits')
 @UseGuards(AuthenticatedUser)
 @UseInterceptors(ClassSerializerInterceptor)

@@ -20,7 +20,9 @@ import { User } from './../auth/entity/user.entity';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { Status } from './entity/items.entity';
 import { SkipThrottle } from '@nestjs/throttler';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auction')
 @Controller('auction')
 @UseGuards(AuthenticatedUser)
 @UseInterceptors(ClassSerializerInterceptor)
