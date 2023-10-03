@@ -1,5 +1,13 @@
 import { Exclude, Expose } from 'class-transformer';
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { decimalTransformer } from '../../common/helpers/decimal.transformer';
 import { User } from '../../auth/entity/user.entity';
 import { Bid } from './bid.entity';
@@ -46,16 +54,15 @@ export class Item {
   @Expose()
   status: Status;
 
-
-  @ManyToOne(() => User, user => user.items, { eager : true})
+  @ManyToOne(() => User, (user) => user.items, { eager: true })
   @Exclude()
-  owner : User
+  owner: User;
 
-  @ManyToOne(() => User, user => user.highestBidItems, { eager : true})
+  @ManyToOne(() => User, (user) => user.highestBidItems, { eager: true })
   @Exclude()
-  highestBidder : User
+  highestBidder: User;
 
-  @Column({ 
+  @Column({
     type: 'decimal',
     precision: 10,
     scale: 2,
@@ -66,24 +73,25 @@ export class Item {
   @Expose()
   highestBid: number;
 
-  @OneToMany(() => Bid, bid => bid.item)
-  bids : Bid[]
+  @OneToMany(() => Bid, (bid) => bid.item)
+  bids: Bid[];
 
-  
+  @CreateDateColumn({ type: 'timestamp' })
+  dateCreated: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  dateUpdated: Date;
+
+  @Column({ nullable: true, type: 'timestamp' })
+  auctionStartDate: Date;
+
   @Column({
     nullable: true,
   })
   @Exclude()
-  refundJobId: string
+  refundJobId: string;
 
   @Column({ type: 'boolean', default: false })
   @Exclude()
   isRefundJobCompleted: boolean;
-
-  @CreateDateColumn({ type: 'timestamp'})
-  dateCreated: Date;
-
-  @UpdateDateColumn({ type: 'timestamp'})
-  dateUpdated: Date;
-
 }

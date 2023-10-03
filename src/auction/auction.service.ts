@@ -40,8 +40,10 @@ export class AuctionService {
     if (status) {
       return await this.itemRepo.find(params);
     }
-    
-    return await this.itemRepo.find({ where: { owner: new User({ ...user }) } });
+
+    return await this.itemRepo.find({
+      where: { owner: new User({ ...user }) },
+    });
   }
 
   public async createAuctionItem(
@@ -94,6 +96,7 @@ export class AuctionService {
     return await this.itemRepo.save(
       new Item({
         ...item,
+        auctionStartDate: new Date(),
         refundJobId: String(job.id),
         status: status,
       }),
